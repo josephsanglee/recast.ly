@@ -29,7 +29,7 @@ class App extends React.Component {
     var options = {
       key: window.YOUTUBE_API_KEY,
       query: e.currentTarget.value,
-      max: 5
+      max: 10
     };
 
     this.debouncedYouTubeSearch(options, this.videoSetter);
@@ -39,7 +39,7 @@ class App extends React.Component {
     var options = {
       key: window.YOUTUBE_API_KEY,
       query: 'Frank Ocean',
-      max: 5
+      max: 10
     };
 
     this.props.searchYouTube(options, this.videoSetter);
