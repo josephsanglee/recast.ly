@@ -4,8 +4,8 @@ class App extends React.Component {
     this.debouncedYouTubeSearch = _.debounce(this.props.searchYouTube, 500);
 
     this.state = {
-      video: exampleVideoData[0],
-      videos: exampleVideoData
+      video: startData[0],
+      videos: startData
     };
   }
 
@@ -28,6 +28,7 @@ class App extends React.Component {
     };
 
     this.debouncedYouTubeSearch(options, data => {
+      console.log(data);
       this.setState({
         video: data[0],
         videos: data
@@ -38,7 +39,7 @@ class App extends React.Component {
   componentDidMount() {
     var options = {
       key: window.YOUTUBE_API_KEY,
-      query: 'dogs',
+      query: 'Frank Ocean',
       max: 5
     };
 

@@ -5,6 +5,8 @@ var VideoPlayer = (props) => (
     </div>
     <div className="video-player-details">
       <h3>{props.video.snippet.title}</h3>
+      <h6>{props.video.snippet.channelTitle}</h6>
+      <div>{'Published on ' + moment(props.video.snippet.publishedAt).format('MMMM Do YYYY')}</div>
       <div>{props.video.snippet.description}</div>
     </div>
   </div>
