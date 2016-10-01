@@ -3,6 +3,13 @@ class App extends React.Component {
     super(props);
     this.debouncedYouTubeSearch = _.debounce(this.props.searchYouTube, 500);
 
+    this.videoSetter = (data) => {
+      this.setState({
+        video: data[0],
+        videos: data
+      });
+    },
+
     this.state = {
       video: startData[0],
       videos: startData
@@ -10,7 +17,6 @@ class App extends React.Component {
   }
 
   onVideoEntryClick(e) {
-    // console.log(e.dispatchMarker);
     var title = e.currentTarget.textContent;
     var newVideo = this.state.videos.filter(video => title === video.snippet.title)[0];
 
@@ -20,20 +26,13 @@ class App extends React.Component {
   }
 
   onInputChange(e) {
-    e.persist();
     var options = {
       key: window.YOUTUBE_API_KEY,
       query: e.currentTarget.value,
       max: 5
     };
 
-    this.debouncedYouTubeSearch(options, data => {
-      console.log(data);
-      this.setState({
-        video: data[0],
-        videos: data
-      });
-    });
+    this.debouncedYouTubeSearch(options, this.videoSetter);
   }
 
   componentDidMount() {
@@ -43,18 +42,10 @@ class App extends React.Component {
       max: 5
     };
 
-    this.props.searchYouTube(options, data => {
-      this.setState({
-        video: data[0],
-        videos: data
-      });
-    });
-
+    this.props.searchYouTube(options, this.videoSetter);
   }
 
-
   render() {
-
     return (
       <div>
         <Nav onInputChange={this.onInputChange.bind(this)}/>
