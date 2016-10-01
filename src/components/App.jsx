@@ -1,11 +1,11 @@
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.debouncedYouTubeSearch = _.debounce(this.props.searchYouTube, 500);
 
     this.state = {
       video: exampleVideoData[0],
       videos: exampleVideoData
-
     };
   }
 
@@ -16,6 +16,22 @@ class App extends React.Component {
 
     this.setState({
       video: newVideo 
+    });
+  }
+
+  onInputChange(e) {
+    e.persist();
+    var options = {
+      key: window.YOUTUBE_API_KEY,
+      query: e.currentTarget.value,
+      max: 5
+    };
+
+    this.debouncedYouTubeSearch(options, data => {
+      this.setState({
+        video: data[0],
+        videos: data
+      });
     });
   }
 
@@ -40,7 +56,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <Nav />
+        <Nav onInputChange={this.onInputChange.bind(this)}/>
         <div className="col-md-7">
           <VideoPlayer video={this.state.video}/>
         </div>
