@@ -2,7 +2,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    
     this.state = {
       video: exampleVideoData[0],
       videos: exampleVideoData
@@ -11,12 +10,29 @@ class App extends React.Component {
   }
 
   onVideoEntryClick(e) {
-    var title = e.target.innerHTML;
-    var newVideo = exampleVideoData.filter(video => title === video.snippet.title)[0];
+    // console.log(e.dispatchMarker);
+    var title = e.currentTarget.textContent;
+    var newVideo = this.state.videos.filter(video => title === video.snippet.title)[0];
 
     this.setState({
       video: newVideo 
     });
+  }
+
+  componentDidMount() {
+    var options = {
+      key: window.YOUTUBE_API_KEY,
+      query: 'dogs',
+      max: 5
+    };
+
+    this.props.searchYouTube(options, data => {
+      this.setState({
+        video: data[0],
+        videos: data
+      });
+    });
+
   }
 
 
